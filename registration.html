@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Login</title>
+
+</head>
+
+<body>
+<div class="container">
+
+    <form action="/register" method="post">
+        <h1>Login to your account</h1>
+        <div class="inputs">
+            <input type="text" name="name" class="name" maxlength="100" minlength="3" placeholder="name"
+                   required> <br>
+            <input type="text" name="email" class="username" maxlength="100" minlength="3" placeholder="email"
+                   required> <br>
+            <input type="password" name="password" class="password" maxlength="32" placeholder="password"
+                   required> <br>
+        </div>
+        <div class="buttons">
+            <button type="submit">Sign in</button>
+        </div>
+        <div class="links">
+            <a href="/" class="createAccount">Log in.</a>
+        </div>
+    </form>
+
+</div>
+</body>
+
+</html>
