@@ -14,7 +14,7 @@ router.get('/records',ensureAuth,async (req,res)=>{
     try{
         const products = await Product.find({userId: req.user.id}).lean()
         res.render('records',{
-            name: req.user.name,
+            name: req.user.first_name,
             products
         })
     }catch(err){
@@ -38,7 +38,10 @@ router.post("/signin", ensureGuest,async (req, res) => {
     if (isEmailExist)
         return alert("Email already exists")
     const user = new User({
-        name: req.body.name,
+        first_name: req.body.first_name,
+        last_name: req.body.last_name,
+        birthday: req.body.birthday,
+        marital_status: req.body.marital_status,
         email: req.body.email,
         password: req.body.password,
     });

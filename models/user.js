@@ -4,12 +4,25 @@ const mongoose = require('mongoose')
 // Define Schema
 const Schema = mongoose.Schema
 const userSchema = new Schema({
-    name: {
+    first_name: {
         required: true,
         type: String
     },
+    last_name: {
+        required: true,
+        type: String
+    },
+    birthday: {
+        required: true,
+        type: Date
+    },
     email: {
         type: String
+    },
+    marital_status: {
+        type: String,
+        enum: ['single', 'married','widowed','divorced'],
+        required: true
     },
     password: {
         type: String,
