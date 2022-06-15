@@ -1,50 +1,86 @@
 const express = require('express');
-const app = express();
-const mongoose = require('mongoose');
-const dotenv = require('dotenv').config();
-const authRoutes = require("./routes/auth");
+const dotenv = require('dotenv');
+const morgan = require('morgan');
 const bodyParser = require('body-parser');
-const cors = require('cors')
 const path = require('path');
-// create application/json parser
-var jsonParser = bodyParser.json()
-const productRouter = require('./routes/product');
-mongoose.connect(
-	process.env.DB_CONNECT,
-	{
-		useNewUrlParser: true,
-		useUnifiedTopology: true,
-	},
-	() => console.log("connected to db")
-);
-mongoose.Promise = global.Promise;
+const connectDB = require('./config/mongoose');
+const exphbs = require('express-handlebars');
+const methodOverride = require('method-override');
+// const mongoose = require('mongoose');
+const passport = require('passport');
+const session = require('express-session');
+// const MongoStore = require('connect-mongo')(session);
 
-const db = mongoose.connection;
-db.on('error', console.error.bind(console, 'MongoDB connection error:'));
-global.user_id = "";
-app.use('/' , authRoutes);
+
+const app = express();
+
+dotenv.config({path: './config/config.env'});
+//Passport config
+require('./config/passport')(passport)
+connectDB()
+
+//pars request to body-parser
+app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
-app.use(cors());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(express.static(__dirname));
-app.get('/',function(req,res) {
-	res.sendFile(path.join(__dirname+'/login.html'));
-});
-app.get("/registration",function (req,res){
-	res.sendFile(path.join(__dirname+'/registration.html'));
-});
-app.get("/home",isLoggedIn,function (req,res){
-	res.sendFile(path.join(__dirname+'/home.html'));
-});
-const port = 3001;
 
-function isLoggedIn(req, res, next) {
-	if (user_id.length!==0) return next();
-	res.sendFile(path.join(__dirname+'/login.html'));
-}
-db.once('open', () => {
-	console.log('Connected!');
-	app.listen(port, () => {
-		console.log('Server is up and running on port number ' + port);
-	});
-});
+// Method override
+app.use(
+	methodOverride(function (req, res) {
+		if (req.body && typeof req.body === 'object' && '_method' in req.body) {
+			// look in urlencoded POST bodies and delete it
+			let method = req.body._method
+			delete req.body._method
+			return method
+		}
+	})
+)
+
+//handlebars helper
+const {   formatDate,
+	select,
+} = require('./helpers/hbs');
+
+//handlebars
+app.engine('.hbs', exphbs.engine({helpers: {
+		formatDate,
+		select,
+	},defaultLayout: 'main', extname: '.hbs'}));
+app.set('view engine', '.hbs');
+
+
+
+//Sessions
+app.use(session({
+	secret: 'keyboard cat',
+	resave: false,
+	saveUninitialized: false,
+	// store: new MongoStore({mongooseConnection: mongoose.connection})
+}))
+
+//Passport middleware
+app.use(passport.initialize())
+app.use(passport.session())
+
+//Static folder
+app.use(express.static(path.join(__dirname, 'public')));
+const PORT = process.env.PORT || 8080
+
+//Routes
+app.use('/', require('./routes/index'))
+app.use('/auth', require('./routes/auth'))
+app.use('/products', require('./routes/products'))
+
+
+//log requests
+app.use(morgan('tiny'));
+
+//load assets
+app.use("/css",express.static(path.resolve(__dirname,"assets/css")))
+app.use("/img",express.static(path.resolve(__dirname,"assets/img")))
+app.use("/js",express.static(path.resolve(__dirname,"assets/js")))
+
+app.get("/",(req,res)=>{
+	res.render('index');
+})
+
+app.listen(PORT,()=>{console.log('Server is up and running on http://localhost:'+PORT)});
