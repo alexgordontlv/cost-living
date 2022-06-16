@@ -1,15 +1,22 @@
-const Category = require('./category');
+const Category = require('./category.js');
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var costLiving = new Schema({
 	name: { type: String, required: true, max: 100 },
-	sum: { type: Number, required: true },
-	Category: {
-		type: mongoose.Schema.Types.ObjectId,
-		ref: 'Category',
-		required: true,
+	price: { type: Number, required: true },
+	date: {type: Date,required:true},
+	category: {
+		type: String,
+		enum: ['Home', 'Transportation','Entertainment','Food','Health','Sport','Private','Education'],
+		required: true
 	},
+	userId: {
+		type: Schema.Types.ObjectId,
+		ref: 'User',
+		index: true,
+		required: true
+	}
 });
 
 // Export the model
