@@ -5,6 +5,7 @@ const categorySchema = new Schema({
 	name: {
 		type: String,
 		required: true,
+		enum: ['Home', 'Transportation', 'Entertainment', 'Food', 'Health', 'Sport', 'Private', 'Education'],
 	},
 });
 

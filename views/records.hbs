@@ -1,5 +1,11 @@
 <h1>records</h1>
 <h6>Welcome {{name}}</h6>
+<h6>Total Sum: {{totalSum}}</h6>
+{{#if sumByCategory}}
+            {{#each sumByCategory}}
+            <h6>Sum for {{category}}: {{sum_val}}</h6>
+            {{/each}}
+{{/if}}
 
 {{#if products}}
     <table class="striped">
@@ -15,7 +21,8 @@
         <tbody>
         {{#each products}}
             <tr>
-                <td><a href="/records/{{_id}}">{{category}}</a></td>
+                <td><a href="/records/{{_id}}">{{category.name}}</a></td>
+                
                 <td>{{name}}</td>
                 <td>{{price}}</td>
                 <td>{{formatDate date 'MMMM Do YYYY'}}</td>
