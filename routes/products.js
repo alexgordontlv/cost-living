@@ -6,6 +6,8 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false });
 
 const Category = require('../models/category');
 const Product = require('../models/cost-living');
+const monthlyExpense = require("../models/monthlyCosts");
+const annualExpense = require("../models/annualCosts");
 const alert = require('alert');
 
 //Show add product page
@@ -15,12 +17,53 @@ router.get('/add', ensureAuth, (req, res) => {
 
 //Process add product
 router.post('/', ensureAuth, urlencodedParser, async (req, res) => {
+	let monthlyCosts;
 	try {
+		let day = req.body.date.split("-");
 		console.log('BODY:', req.body);
-		const category = await Category.findOne({ name: req.body.category });
+		const category = await Category.findOne({name: req.body.category});
 		console.log('FOUND CATEGORY:', category);
-		await Product.create({ ...req.body, userId: req.user._id, category: category._id });
+		await Product.create({...req.body, userId: req.user._id, category: category._id});
 		await alert('Product added successfully!!');
+		//create/update monthly expenses
+		await monthlyExpense.findOne({userId: req.user._id, year: day[0], month: day[1], category: category._id}).then(
+			entry =>{
+				if(!entry){
+					monthlyExpense.create({
+						userId: req.user._id,
+						category: category._id,
+						month: day[1],
+						year:day[0],
+						sum:req.body.price,
+					})
+				}else {
+					monthlyExpense.updateOne(
+					{id:entry._id},{$inc:{sum:req.body.price}}
+					).then((res) => {
+						console.log(res.res)
+					})
+				}
+			}
+		)
+		//create/update annual expenses
+		await annualExpense.findOne({userId: req.user._id, year: day[0], category: category._id}).then(
+			entry =>{
+				if(!entry){
+					annualExpense.create({
+						userId: req.user._id,
+						category: category._id,
+						year:day[0],
+						sum:req.body.price,
+					})
+				}else {
+					annualExpense.updateOne(
+						{id:entry._id},{$inc:{sum:req.body.price}}
+					).then((res) => {
+						console.log(res.res)
+					})
+				}
+			}
+		)
 		res.redirect('/records');
 	} catch (err) {
 		console.error(err);

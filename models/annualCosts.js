@@ -4,7 +4,8 @@ var Schema = mongoose.Schema;
 
 var annualCosts = new Schema({
     sum: { type: Number, required: true },
-    date: {type: Date,required:true},
+    year:{type: Number, required: true},
+    category: { type: Schema.Types.ObjectId, ref: 'Category' },
     userId: {
         type: Schema.Types.ObjectId,
         ref: 'User',
