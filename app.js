@@ -6,10 +6,8 @@ const path = require('path');
 const connectDB = require('./config/mongoose');
 const exphbs = require('express-handlebars');
 const methodOverride = require('method-override');
-// const mongoose = require('mongoose');
 const passport = require('passport');
 const session = require('express-session');
-// const MongoStore = require('connect-mongo')(session);
 
 const app = express();
 

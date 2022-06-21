@@ -6,7 +6,7 @@ var costLiving = new Schema({
 	name: { type: String, required: true, max: 100 },
 	price: { type: Number, required: true },
 	date: { type: Date, required: true },
-	category: { type: Schema.Types.ObjectId, ref: 'Category' },
+	category: { type: Category, required: true },
 	userId: {
 		type: Schema.Types.ObjectId,
 		ref: 'User',
