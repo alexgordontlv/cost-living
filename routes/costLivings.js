@@ -9,7 +9,6 @@ const Category = require('../models/category');
 const User = require('../models/user');
 const { lastDayOfMonth, firstDayOfMonth } = require('../helpers/dateHelpers');
 
-//Show add User = require('../models/user'); page
 router.get('/add', ensureAuth, (req, res) => {
 	res.render('products/add');
 });
@@ -37,11 +36,13 @@ router.get('/report/:reportYear/:reportMonth', ensureGuest, async (req, res) => 
 		const { reportYear, reportMonth } = req.params;
 		if (reportYear === null || reportMonth === null) {
 			console.log('NO PARAMS');
-			return;
+			return res.status(400);
 		}
+
 		const date1 = firstDayOfMonth(reportYear, reportMonth);
 		const date2 = lastDayOfMonth(reportYear, reportMonth);
 		console.log('DATE1:', date1, 'DATE2:', date2);
+
 		const agg = await User.aggregate([
 			{ $unwind: '$cost_livings' },
 			{ $unwind: '$cost_livings.records' },
@@ -67,8 +68,7 @@ router.get('/report/:reportYear/:reportMonth', ensureGuest, async (req, res) => 
 //Process add product
 router.post('/', ensureAuth, urlencodedParser, async (req, res) => {
 	try {
-		//	console.log('BODY:', req.body);
-		const user = await User.updateOne({ _id: req.user.id }, [
+		await User.updateOne({ _id: req.user.id }, [
 			{
 				$set: {
 					'cost_livings.records': {
@@ -90,8 +90,6 @@ router.post('/', ensureAuth, urlencodedParser, async (req, res) => {
 				},
 			},
 		]).exec();
-
-		//console.log('USER:', user);
 
 		res.redirect('/products');
 	} catch (err) {
