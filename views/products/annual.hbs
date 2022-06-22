@@ -1,0 +1,34 @@
+<h1>Annual expenses</h1>
+
+{{#if years}}
+    <div class="row">
+        <form action="/report/{{reportYear}}/01" method="get" class="col s12" >//onchange="submit();">
+            {{!-- Date --}}
+            <div class="col-sm-6 mb-3">
+                <select class="custom-select ml-2" id="reportYear" name="reportYear">
+                    {{#select reportYear}}
+<!--                        <option value="{{this}}" hidden="hidden" selected="selected">{{this}}</option>-->
+                        {{#each years}}
+                            <option value="{{ this }}" selected>{{ this }}</option>
+                        {{/each}}
+                    {{/select}}
+                </select>
+            </div>
+            <div class="buttons">
+                <button type="submit" class="button-15">Ok</button>
+            </div>
+        </form>
+    </div>
+
+    <!--    <div class="dropdown">-->
+    <!--        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Select Date for report-->
+    <!--            <span class="caret"></span></button>-->
+    <!--        <ul class="dropdown-menu">-->
+            <!--            {{#each months}}-->
+    <!--                <li>{{this}}</li>-->
+            <!--            {{/each}}-->
+    <!--        </ul>-->
+    <!--    </div>-->
+
+
+{{/if}}

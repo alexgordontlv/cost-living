@@ -8,6 +8,7 @@ const CostLiving = require('../models/costLiving');
 const Category = require('../models/category');
 const User = require('../models/user');
 const { lastDayOfMonth, firstDayOfMonth } = require('../helpers/dateHelpers');
+const {getYears, getMonth} = require("../helpers/expense");
 
 router.get('/add', ensureAuth, (req, res) => {
 	res.render('products/add');
@@ -100,7 +101,7 @@ router.post('/', ensureAuth, urlencodedParser, async (req, res) => {
 
 //Show edit product page
 router.get('/edit/:id', ensureAuth, async (req, res) => {
-	const product = await CostLiving.findOne({ _id: req.params.id }).lean();
+	const product = await User.findOne({ category:{_id:req.params.id}  }).lean();
 	if (!product) {
 		return res.render('error/404');
 	} else {
@@ -111,7 +112,7 @@ router.get('/edit/:id', ensureAuth, async (req, res) => {
 //Update product
 router.put('/:id', ensureAuth, async (req, res) => {
 	try {
-		let product = await CostLiving.findById(req.params.id).lean();
+		let product = await User.findById(req.params.id).lean();
 
 		if (!product) {
 			return res.render('error/404');
@@ -142,6 +143,22 @@ router.delete('/:id', ensureAuth, async (req, res) => {
 		console.error(err);
 		return res.render('error/500');
 	}
+});
+
+//Process Show available months
+router.get("/monthly", ensureAuth, async(req, res) => {
+	let month = await getMonth(req.user.id);
+	let beginner = false;
+	let noFilterResult = true;
+	console.log(month)
+	res.render('products/monthly', {layout: 'main', months: month,beginner: beginner ,noFilterResult:noFilterResult});
+});
+
+//Process Show available years
+router.get("/annual", ensureAuth, async(req, res) => {
+	let year = await getYears(req.user.id);
+	console.log(year)
+	res.render('products/annual', {layout: 'main', years: year,});
 });
 
 module.exports = router;
