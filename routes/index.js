@@ -1,8 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const { ensureAuth, ensureGuest } = require('../middleware/auth');
+const { ensureGuest } = require('../middleware/auth');
 
-const Product = require('../models/costLiving');
 const User = require('../models/user');
 let alert = require('alert');
 
@@ -18,6 +17,7 @@ router.get('/login', ensureGuest, (req, res) => {
 router.get('/signin', ensureGuest, (req, res) => {
 	res.render('signin', { layout: 'signin' });
 });
+
 router.post('/signin', ensureGuest, async (req, res) => {
 	const isEmailExist = await User.findOne({ email: req.body.email });
 	// throw error when email already registered

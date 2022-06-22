@@ -68,9 +68,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 const PORT = process.env.PORT || 8080;
 
 //Routes
-app.use('/', require('./routes/index'));
+app.use('/', require('./routes/'));
 app.use('/auth', require('./routes/auth'));
-app.use('/products', require('./routes/products'));
+app.use('/products', require('./routes/costLivings'));
 
 //log requests
 app.use(morgan('tiny'));
