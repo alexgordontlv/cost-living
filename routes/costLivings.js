@@ -59,7 +59,13 @@ router.get('/report/:reportYear/:reportMonth', ensureAuth, async (req, res) => {
 					},"_id":mongoose.Types.ObjectId(req.user.id),
 				},
 			},
-			{ $group: { _id: '$cost_livings.records.category.name', sum_val: { $sum: '$cost_livings.records.price' } } },
+			{ $group: {
+				_id: '$cost_livings.records.category.name',
+					sum_val: {
+					$sum: '$cost_livings.records.price'
+				}
+			}
+			},
 		]);
 		console.log('AGGREGATION:', agg);
 
@@ -94,7 +100,13 @@ router.get('/report/:reportYear', ensureAuth, async (req, res) => {
 					},"_id":mongoose.Types.ObjectId(req.user.id),
 				},
 			},
-			{ $group: { _id: '$cost_livings.records.category.name', sum_val: { $sum: '$cost_livings.records.price' } } },
+			{ $group: {
+				_id: '$cost_livings.records.category.name',
+					sum_val: {
+					$sum: '$cost_livings.records.price'
+				}
+			}
+			},
 		]);
 		console.log('AGGREGATION:', agg);
 
@@ -126,7 +138,9 @@ router.post('/', ensureAuth, urlencodedParser, async (req, res) => {
 							],
 						],
 					},
-					'cost_livings.total_sum': { $sum: ['$cost_livings.total_sum', parseFloat(req.body.price)] },
+					'cost_livings.total_sum': {
+						$sum: ['$cost_livings.total_sum',
+							parseFloat(req.body.price)] },
 				},
 			},
 		]).exec();
@@ -144,7 +158,11 @@ router.get("/monthly", ensureAuth, async(req, res) => {
 	let beginner = false;
 	let noFilterResult = true;
 	console.log(month)
-	res.render('products/monthly', {layout: 'main', months: month,beginner: beginner ,noFilterResult:noFilterResult});
+	res.render('products/monthly',
+		{layout: 'main',
+			months: month,
+			beginner: beginner ,
+			noFilterResult:noFilterResult});
 });
 
 //@Get available years
