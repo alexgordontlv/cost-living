@@ -44,9 +44,9 @@ router.get('/report/:reportYear/:reportMonth', ensureAuth, async (req, res) => {
 			return res.status(400);
 		}
 
-		const date1 = firstDayOfMonth(reportYear, reportMonth);
-		const date2 = lastDayOfMonth(reportYear, reportMonth);
-		console.log('DATE1:', date1, 'DATE2:', date2);
+		const startDate = firstDayOfMonth(reportYear, reportMonth);
+		const endDate = lastDayOfMonth(reportYear, reportMonth);
+		console.log('from date:', startDate, 'to date:', endDate);
 
 		const agg = await User.aggregate([
 			{ $unwind: '$cost_livings' },
@@ -54,8 +54,8 @@ router.get('/report/:reportYear/:reportMonth', ensureAuth, async (req, res) => {
 			{
 				$match: {
 					'cost_livings.records.date': {
-						$gte: date1,
-						$lte: date2,
+						$gte: startDate,
+						$lte: endDate,
 					},"_id":mongoose.Types.ObjectId(req.user.id),
 				},
 			},
@@ -72,8 +72,6 @@ router.get('/report/:reportYear/:reportMonth', ensureAuth, async (req, res) => {
 
 //@Get reports by year
 router.get('/report/:reportYear', ensureAuth, async (req, res) => {
-	console.log('HI:');
-
 	try {
 		const { reportYear } = req.params;
 		if (reportYear === null) {
@@ -81,9 +79,9 @@ router.get('/report/:reportYear', ensureAuth, async (req, res) => {
 			return res.status(400);
 		}
 
-		const date1 = new Date(reportYear+"-01-01");
-		const date2 = addYear(date1);
-		console.log('DATE1:', date1, 'DATE2:', date2);
+		const startYear = new Date(reportYear+"-01-01");
+		const endYear = addYear(startYear);
+		console.log('from year:', startYear, 'to year:', endYear);
 
 		const agg = await User.aggregate([
 			{ $unwind: '$cost_livings' },
@@ -91,8 +89,8 @@ router.get('/report/:reportYear', ensureAuth, async (req, res) => {
 			{
 				$match: {
 					'cost_livings.records.date': {
-						$gte: date1,
-						$lte: date2,
+						$gte: startYear,
+						$lte: endYear,
 					},"_id":mongoose.Types.ObjectId(req.user.id),
 				},
 			},
