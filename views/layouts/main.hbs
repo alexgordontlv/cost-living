@@ -7,11 +7,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel ="stylesheet" href="/css/style.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
-    <link rel='stylesheet' href='https://bootswatch.com/4/litera/bootstrap.min.css' crossorigin='anonymous' />
     <script src='https://kit.fontawesome.com/fc38f96ac0.js' crossorigin='anonymous'></script>
     <title>Cost Living App</title>
 </head>
@@ -23,17 +21,51 @@
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
 <script>
     M.Sidenav.init(document.querySelector('.sidenav'))
     M.FormSelect.init(document.querySelector('#category'))
 </script>
+<script>
+    function getAnnualReport() {
+        var x = document.getElementById("mySelect").value;
+        var Url = window.location.href.replace("annual","report/")+x;
+        const otherParam={
+            header:{"Content-Type":"application/json"},
+            method:"GET"
+        };
+        fetch(Url, otherParam)
+                .then(data=>{return data.json()})
+                .then(res=>{
+                    document.getElementById("demo").innerHTML ="";
+                    document.getElementById("demo").innerHTML = "You selected: " + x+ "<br />";
+                    res.report.forEach((element, index, array) => {
+                        document.getElementById("demo").innerHTML +=(element._id+" : "+element.sum_val+ "<br />");
+                    });
+                }).catch(error=>console.log(error));
+        document.getElementById("demo").innerHTML = "You selected: " + x;
+    }
+</script>
 
-{{! Bootstrap }}
-<script src='https://code.jquery.com/jquery-3.5.1.slim.min.js'
-        integrity='sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj'
-        crossorigin='anonymous'></script>
-<script src='https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js'
-        integrity='sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns'
-        crossorigin='anonymous'></script>
+<script>
+    function getMonthlyReport() {
+        var x = document.getElementById("mySelect").value;
+        var Url = window.location.href.replace("monthly","report/")+x.split("-")[1]+"/"+x.split("-")[0];
+        const otherParam={
+            header:{"Content-Type":"application/json"},
+            method:"GET"
+        };
+        fetch(Url, otherParam)
+                .then(data=>{return data.json()})
+                .then(res=>{
+                    document.getElementById("demo").innerHTML ="";
+                    document.getElementById("demo").innerHTML = "You selected: " + x+ "<br />";
+                    res.report.forEach((element, index, array) => {
+                        document.getElementById("demo").innerHTML +=(element._id+" : "+element.sum_val+ "<br />");
+                    });
+                }).catch(error=>console.log(error));
+    }
+</script>
 </body>
 </html>

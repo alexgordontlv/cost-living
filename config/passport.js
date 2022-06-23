@@ -23,7 +23,6 @@ module.exports = function(passport) {
                     }
 
                     done(null, user);
-                    // TODO - check password
                 } else {
                     done(null, false);
                 }

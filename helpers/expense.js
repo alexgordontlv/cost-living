@@ -1,8 +1,11 @@
 const User = require("../models/user");
+
+//report help functions
 module.exports = {
     getMonth: async function  (userId){
         let user = null;
         var numeric = { year: 'numeric', month: 'numeric' };
+        const obj = [];
         let dictionary = new Map();
         try {
             user = await User.findOne({ _id: userId }).lean();
@@ -15,14 +18,16 @@ module.exports = {
                 dictionary.set(date,date);
             }
         }
-        let keys = Array.from( dictionary.keys() );
-        return keys;
-        // return dictionary
+        dictionary.forEach((key,value)=>{
+            obj.push({date:value})
+        })
+        return obj;
     },
     getYears: async function (userId){
         let user = null;
         var numeric = { year: 'numeric' };
-        let dictionary = new Map();
+        let map = new Map();
+        const obj = [];
         try {
             user = await User.findOne({ _id: userId }).lean();
         }catch (err){
@@ -31,9 +36,13 @@ module.exports = {
         if(user){
             let dates = user.cost_livings["records"].map(a=>a.date.toLocaleDateString('en-GB', numeric));
             for (const date of dates){
-                dictionary.set(date,date);
+                map.set(date,date);
             }
         }
-        let keys = Array.from( dictionary.keys() );
-        return keys;
+        map.forEach((key,value)=>{
+            obj.push({day:"01",year:value})
+        })
+
+        // let keys = Array.from( map.keys() );
+        return obj;
     }}

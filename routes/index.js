@@ -5,10 +5,12 @@ const { ensureGuest } = require('../middleware/auth');
 const User = require('../models/user');
 let alert = require('alert');
 
+//Show main page
 router.get('/', ensureGuest, (req, res) => {
 	res.render('index', { layout: 'index' });
 });
 
+//Show login page
 router.get('/login', ensureGuest, (req, res) => {
 	res.render('login', { layout: 'login' });
 });
@@ -18,6 +20,7 @@ router.get('/signin', ensureGuest, (req, res) => {
 	res.render('signin', { layout: 'signin' });
 });
 
+//@post registration
 router.post('/signin', ensureGuest, async (req, res) => {
 	const isEmailExist = await User.findOne({ email: req.body.email });
 	// throw error when email already registered

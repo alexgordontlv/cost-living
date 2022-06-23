@@ -15,7 +15,6 @@
             <th>Name</th>
             <th>Price</th>
             <th>Date</th>
-            <th>Action</th>
         </tr>
         </thead>
         <tbody>
@@ -26,18 +25,6 @@
                 <td>{{name}}</td>
                 <td>{{price}}</td>
                 <td>{{formatDate date 'MMMM Do YYYY'}}</td>
-                <td>
-                    <a href="/products/edit/{{_id}}" class="btn btn-float">
-                        <i class="fas fa-edit"></i>
-                    </a>
-
-                    <form action="/products/{{_id}}" method="POST" id="delete-form">
-                        <input type="hidden" name="_method" value="DELETE">
-                        <button type="submit" class="btn red">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                    </form>
-                </td>
 
             </tr>
         {{/each}}
