@@ -3,7 +3,6 @@ const router = express.Router();
 const { ensureGuest } = require('../middleware/auth');
 
 const User = require('../models/user');
-let alert = require('alert');
 
 //Show main page
 router.get('/', ensureGuest, (req, res) => {
@@ -24,7 +23,7 @@ router.get('/signin', ensureGuest, (req, res) => {
 router.post('/signin', ensureGuest, async (req, res) => {
 	const isEmailExist = await User.findOne({ email: req.body.email });
 	// throw error when email already registered
-	if (isEmailExist) return alert('Email already exists');
+	if (isEmailExist) return res.status(400).json({ error:"Email already exists" });
 	const user = new User({
 		first_name: req.body.first_name,
 		last_name: req.body.last_name,
@@ -36,9 +35,7 @@ router.post('/signin', ensureGuest, async (req, res) => {
 	try {
 		const savedUser = await user.save();
 		user_id = savedUser._id;
-		alert('User created successfully!!');
 		res.redirect('/');
-		// res.json({  error: null, data: { userId: savedUser._id } });
 	} catch (error) {
 		res.status(400).json({ error });
 	}

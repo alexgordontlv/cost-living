@@ -16,7 +16,7 @@ router.get('/add', ensureAuth, (req, res) => {
 	res.render('products/add');
 });
 
-//Show last expenses of useer
+//Show last expenses of user
 router.get('/', ensureAuth, async (req, res) => {
 	try {
 		const user = await User.findOne({ _id: req.user.id }).lean();
