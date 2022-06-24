@@ -1,0 +1,28 @@
+{
+  "results": [
+    {
+      "name": "Entertainment"
+    },
+    {
+      "name": "Home"
+    },
+    {
+      "name": "Transportation"
+    },
+    {
+      "name": "Food"
+    },
+    {
+      "name": "Other"
+    },
+    {
+      "name": "Sport"
+    },
+    {
+      "name": "Education"
+    },
+    {
+      "name": "Health"
+    }
+  ]
+}
