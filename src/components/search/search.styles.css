@@ -1,0 +1,22 @@
+.search__input {
+  width: 200px;
+  border: 1px solid grey;
+  display: flex;
+  align-items: center;
+  background-color: white;
+  border-radius: 5px;
+  padding: 3px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.search__input > input {
+  border: 1px;
+  background-color: white;
+}
+.input {
+  padding: 8px;
+  width: 100%;
+}
+input:focus {
+  outline: none;
+}

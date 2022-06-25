@@ -1,31 +1,63 @@
 {
-  "name": "productsapp",
-  "version": "1.0.0",
-  "description": "",
-  "main": "app.js",
-  "scripts": {
-    "start": "nodemon app.js",
-    "seed": "node models/seeds/categorySeeder.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "name": "blabla",
+  "version": "0.1.0",
+  "private": true,
+    "engines": {
+    "node": "16.x"
   },
-  "author": "",
-  "license": "ISC",
   "dependencies": {
-    "alert": "^5.0.12",
-    "axios": "^0.27.2",
-    "body-parser": "^1.20.0",
-    "connect-mongo": "^4.6.0",
-    "dotenv": "^16.0.1",
-    "ejs": "^3.1.8",
-    "express": "^4.18.1",
-    "express-handlebars": "^6.0.6",
-    "express-session": "^1.17.3",
-    "method-override": "^3.0.0",
-    "moment": "^2.29.3",
-    "mongoose": "^6.3.8",
-    "morgan": "^1.10.0",
-    "nodemon": "^2.0.16",
-    "passport": "^0.6.0",
-    "passport-custom": "^1.1.1"
+    "@headlessui/react": "^1.0.0",
+    "@heroicons/react": "^1.0.1",
+    "@material-ui/core": "^4.11.3",
+    "@material-ui/icons": "^4.11.2",
+    "@testing-library/jest-dom": "^5.11.4",
+    "@testing-library/react": "^11.1.0",
+    "@testing-library/user-event": "^12.1.10",
+    "axios": "^0.21.1",
+    "moment": "^2.29.1",
+    "postcss": "^8.2.10",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "react-query": "^3.16.0",
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "4.0.3",
+    "react-spinners": "^0.10.6",
+    "recharts": "^2.0.9",
+    "valid-url": "^1.0.9",
+    "web-vitals": "^1.0.1"
+  },
+  "scripts": {
+    "dev-server": "react-scripts start && (cd server && yarn dev)",
+    "dev": "yarn run watch:css && react-scripts start",
+    "start": "cd server && yarn start",
+    "start-build": "yarn run build && (cd server && yarn start)",
+    "build": "yarn build:css && react-scripts build && (cd server && yarn install)",
+    "test": "react-scripts test",
+    "build:css": "postcss src/assets/tailwind.css -o src/assets/main.css",
+    "watch:css": "postcss src/assets/tailwind.css -o src/assets/main.css",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "autoprefixer": "^9.0.0",
+    "postcss-cli": "^8.3.1",
+    "tailwindcss": "^2.1.1"
   }
 }
