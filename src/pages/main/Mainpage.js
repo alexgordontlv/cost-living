@@ -12,6 +12,7 @@ const Register = React.lazy(() => import('../register/Register'));
 const UserCard = React.lazy(() => import('../../components/usercard/UserCard'));
 const Dashboard = React.lazy(() => import('../dashboard/Dashboard'));
 const Expenses = React.lazy(() => import('../Expenses/Expenses'));
+const Report = React.lazy(() => import('../report/Report'));
 const queryClient = new QueryClient();
 
 const Mainpage = () => {
@@ -27,6 +28,7 @@ const Mainpage = () => {
 						<Route path='/login' render={(props) => (!currentUser ? <Login /> : <Redirect to='/' />)} />
 						<Route path='/register' component={Register} />
 						<PrivateRoute path='/expenses' component={Expenses} />
+						<PrivateRoute path='/report' component={Report} />
 						<PrivateRoute path='/profile' component={UserCard} />
 						<PrivateRoute path='/dashboard' component={Dashboard} />
 					</QueryClientProvider>

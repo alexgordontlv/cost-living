@@ -1,30 +1,25 @@
 const express = require('express');
 const dotenv = require('dotenv');
-const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const path = require('path');
 const cors = require('cors');
 const connectDB = require('./config/mongoose');
-const exphbs = require('express-handlebars');
-const methodOverride = require('method-override');
-const session = require('express-session');
 
 const app = express();
 app.use(cors());
 
 dotenv.config({ path: './.env' });
-//Passport config
 connectDB();
 
-//pars request to body-parser
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+app.use(express.static(path.join(__dirname, '..', 'build')));
+app.use(express.static('public'));
+app.use(cors());
+app.use(express.json());
 
 //handlebars helper
 const { formatDate, select } = require('./helpers/hbs');
 
 //Static folder
-app.use(express.static(path.join(__dirname, 'public')));
 const PORT = process.env.PORT || 8080;
 
 //Routes

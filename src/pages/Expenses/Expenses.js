@@ -18,7 +18,6 @@ const Expenses = () => {
 		return data;
 	});
 
-	console.log(data);
 	if (isLoading) return <Spinner />;
 	if (error) return 'An error has occurred: ' + error.message;
 	return (

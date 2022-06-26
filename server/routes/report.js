@@ -18,14 +18,14 @@ router.get('/:reportYear/:reportMonth', ensureAuth, async (req, res) => {
 		const endDate = lastDayOfMonth(reportYear, reportMonth);
 		console.log('from date:', startDate, 'to date:', endDate);
 
-		const report = await getReportByStartAndEndDate(startDate, endDate, req.user.id);
+		const report = await getReportByStartAndEndDate(startDate, endDate, req.id);
 
 		console.log('AGGREGATION PER MOPNTH:', report);
 
-		res.json({ report: report });
+		res.status(200).json({ report: report });
 	} catch (err) {
-		console.error(err);
-		res.render('error/500');
+		console.error(error);
+		res.status(400).json({ error });
 	}
 });
 
@@ -42,14 +42,14 @@ router.get('/:reportYear', ensureAuth, async (req, res) => {
 		const endDate = lastDayOfMonth(reportYear, '12');
 		console.log('from year:', startDate, 'to year:', endDate);
 
-		const report = await getReportByStartAndEndDate(startDate, endDate, req.user.id);
+		const report = await getReportByStartAndEndDate(startDate, endDate, req.id);
 
 		console.log('AGGREGATION:', report);
 
-		res.json({ report: report });
+		res.status(200).json({ report: report });
 	} catch (err) {
-		console.error(err);
-		res.render('error/500');
+		console.error(error);
+		res.status(400).json({ error });
 	}
 });
 
