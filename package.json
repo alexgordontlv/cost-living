@@ -31,7 +31,7 @@
     "dev-server": "react-scripts start && (cd server && yarn dev)",
     "dev": "yarn run watch:css && react-scripts start",
     "start": "cd server && yarn start",
-    "start-build": "yarn run build && (cd server && yarn start)",
+    "start-build": "npm run build && (cd server && npm start)",
     "build": "yarn build:css && react-scripts build && (cd server && yarn install)",
     "test": "react-scripts test",
     "build:css": "postcss src/assets/tailwind.css -o src/assets/main.css",
