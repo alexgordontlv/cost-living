@@ -26,7 +26,7 @@ const Report = () => {
 		if (month && year) {
 			console.log('month', month);
 			const { data } = await axios.get(`/report/${year}/${new Date(month).getMonth() + 1}`, {
-				headers: { USER_ID: currentUser._id },
+				headers: { Authorization: `${currentUser._id}` },
 			});
 			console.log(data);
 
