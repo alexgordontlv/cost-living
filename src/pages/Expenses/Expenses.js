@@ -13,7 +13,7 @@ const Expenses = () => {
 	console.log('USER ID', currentUser._id);
 	const { isLoading, error, data } = useQuery('expenses', async () => {
 		const { data } = await axios.get(`/costlivings/`, {
-			headers: { USER_ID: currentUser._id },
+			headers: { USER_ID: currentUser._id, Authorization: `Bearer ${currentUser._id}` },
 		});
 		return data;
 	});
