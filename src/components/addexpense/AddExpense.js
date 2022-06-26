@@ -15,7 +15,7 @@ const AddExpense = (props) => {
 	const mutation = useMutation(
 		(newExpense) => {
 			return axios.post('/costlivings', newExpense, {
-				headers: { Authorization: `${currentUser._id}` },
+				headers: { Authorization: `${props.currentUserId}` },
 			});
 		},
 		{
