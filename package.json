@@ -33,6 +33,7 @@
     "start": "cd server && yarn start",
     "start-build": "npm run build && (cd server && npm start)",
      "start-build-pm2": "npm run build && (cd server && pm2 start server.js --name 'server' --watch)",
+      "start-server-pm2": "cd server && pm2 start server.js --name 'server' --watch",
     "build": "npm run build:css && react-scripts build && (cd server && npm install)",
     "test": "react-scripts test",
     "build:css": "postcss src/assets/tailwind.css -o src/assets/main.css",
