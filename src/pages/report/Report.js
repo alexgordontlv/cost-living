@@ -17,7 +17,7 @@ const Report = () => {
 		setIsLoading(true);
 		if (!month && year) {
 			const { data } = await axios.get(`/report/${year}`, {
-				headers: { USER_ID: currentUser._id },
+				headers: { Authorization: `${currentUser._id}` },
 			});
 			console.log(data);
 			setReports(data.report);
